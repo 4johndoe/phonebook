@@ -113,7 +113,7 @@ class Home extends CI_Controller {
 
 
 		foreach ($networks_list as $network) {
-			$options .= '<option>'.$network->network_name.'</option>';
+			$options .= '<option value = "'.$network->network_id.'">'.$network->network_name.'</option>';
 		}
 
 		return $options;
@@ -124,14 +124,32 @@ class Home extends CI_Controller {
 
 		$data = $this->input->post();
 		$contacts_model = $this->main_model;
+		$mobile = (object)[];
 
 		if ($data) {
-
 			extract($data, EXTR_SKIP);
 
-			$contact_id = $contacts_model->insert_contact();
+			$user_id = $contacts_model->insert_new_user($first_name, $last_name, $email);
+
+			$counter = 0;
+			foreach ($mobile_number as $mobile_number) {
+				$number = $mobile_number;
+				$network = $mobile_network[$counter];
+
+				$contacts_model->insert_contact($number, $network, $user_id);
+				$counter++;
+			}
+
+			$counter_phone = 0;
+			foreach($phone_number as $phone_number) {
+				$phone_no = $phone_number;
+				$network_tel = $phone_network[$counter_phone];
+
+				$contacts_model->insert_contact($phone_no, $network_tel, $user_id);
+				$counter_phone++;
+			}
 		}
-		
+
 	}
 
 	

@@ -39,7 +39,7 @@
               </div>
               <label class="col-sm-2 control-label">Network:</label>
               <div class = "col-md-3">
-                <select class="form-control" name="network">
+                <select class="form-control" name="mobile_network[]">
                   <?php echo $mobile_networks_dropdown; ?>
                 </select>
               </div>
@@ -53,11 +53,11 @@
           <div class="form-group">
               <label class="col-sm-2 control-label">Telephone no(s):</label>
               <div class = "col-md-3">
-                <input type="number" class="form-control" name="tel_number[]">
+                <input type="number" class="form-control" name="phone_number[]">
               </div>
               <label class="col-sm-2 control-label">Network:</label>
               <div class = "col-md-3">
-                <select class="form-control" name="network">
+                <select class="form-control" name="phone_network[]">
                   <?php echo $tel_networks_dropdown; ?>
                 </select>
               </div>

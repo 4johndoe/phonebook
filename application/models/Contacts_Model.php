@@ -62,8 +62,31 @@
 		}
 
 		/* INSERT */
-		public function insert_contact(){
-			
+		public function insert_new_user($first_name, $last_name, $email) {
+
+			$sql = 'INSERT INTO `user` (`first_name`, `last_name`, `email`)
+					VALUES (?, ?, ?)';
+
+			$escaped_values = array($first_name, $last_name, $email);
+
+			$query = $this->db->query($sql, $escaped_values);
+
+			$result = $this->db->insert_id();
+
+			return $result;
+		}
+
+		public function insert_contact($number, $network, $user_id) {
+
+			$sql = "INSERT INTO `contact` (`contact_no`, `network_id`, `user_id`)
+					VALUES (?, ?, ?)";
+			$escaped_values = array($number, $network, $user_id);
+
+			$query = $this->db->query($sql, $escaped_values);
+
+			$result = $this->db->insert_id();
+
+			return $result;
 		}
 
 	}

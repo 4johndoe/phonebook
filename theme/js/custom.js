@@ -140,18 +140,16 @@ Module.Phonebook = (function() {
 			e.preventDefault();
 
 			var data_submitted = $(form_id).serialize();
-			var data_sent = {
-				data_submitted: data_submitted
-			}
-
+				
 			$.ajax({
 				url: ajax_url,
 				method: 'POST',
-				data: data_sent,
+				data: data_submitted,
 				beforeSend: function() {
 
 				},
 				success: function(response) {
+					modal.hide_modal();
 					console.log(response);
 				},
 				complete: function(response) {
