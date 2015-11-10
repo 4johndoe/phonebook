@@ -164,7 +164,9 @@ class Home extends CI_Controller {
 		$user_id = $this->input->post('user_id');
 		$contacts_model = $this->main_model;
 
-		$contacts_model->delete_user($user_id);
+		$response = $contacts_model->delete_user($user_id);
+
+		echo $response;
 	}
 	
 

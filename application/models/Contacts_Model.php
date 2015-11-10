@@ -89,5 +89,14 @@
 			return $result;
 		}
 
+		public function delete_user($user_id) {
+
+			$sql = "DELETE FROM `user` WHERE `user_id` = ?";
+
+			$query = $this->db->query($sql, array($user_id));
+
+			return 'deleted';
+		}
+
 	}
 ?>

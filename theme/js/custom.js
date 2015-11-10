@@ -273,15 +273,16 @@ Module.Phonebook = (function() {
 				btn_yes  = '.btn_yes';
 
 			$(btn_yes).on('click', function() {
-				
+
 				$.ajax({
 					url: ajax_url,
 					method: 'POST',
 					data: {user_id: id},
 					beforeSend: function() {
-
+						$(btn_yes).text('Deleting..');
 					},
 					success: function(response) {
+						console.log(response);
 						modal.hide_modal();
 					},
 					complete: function(response) {
