@@ -55,6 +55,7 @@ Module.Phonebook = (function() {
 								.html('<h2> <span class = "glyphicon glyphicon-th-list"></span> Contact List</h2>');
 				view_details_btn();
 				create_new_contact_btn();
+				delete_functions.delete_user();
 			}
 		});
 	}
@@ -129,37 +130,6 @@ Module.Phonebook = (function() {
 		});
 	}
 
-	function submit_data() {
-
-		var form_id = '#new-contact-form',
-			ajax_url = controller + '/insert_data';
-		
-		
-		$(form_id).submit(function(e){
-				
-			e.preventDefault();
-
-			var data_submitted = $(form_id).serialize();
-				
-			$.ajax({
-				url: ajax_url,
-				method: 'POST',
-				data: data_submitted,
-				beforeSend: function() {
-
-				},
-				success: function(response) {
-					modal.hide_modal();
-					console.log(response);
-				},
-				complete: function(response) {
-					init();
-				}
-			});
-		});
-
-	}
-	
 	var dynamic_form = function() {
 		var input_div_mobile = '#mobile-numbers-row-id',
 			input_div_tel = '#tel-numbers-row-id',
@@ -230,7 +200,103 @@ Module.Phonebook = (function() {
 		}
 	}();
 
-	
+	function submit_data() {
+
+		var form_id = '#new-contact-form',
+			ajax_url = controller + '/insert_data';
+		
+		var saving_btn = '<button type="button" class="btn btn-primary" disabled = "disabled">Saving..</button>';
+		$(form_id).submit(function(e){
+				
+			e.preventDefault();
+
+			var data_submitted = $(form_id).serialize();
+				
+			$.ajax({
+				url: ajax_url,
+				method: 'POST',
+				data: data_submitted,
+				beforeSend: function() {
+					$('.modal-footer').find('#btn-save-data-id').replaceWith(saving_btn);
+				},
+				success: function(response) {
+					modal.hide_modal();
+					console.log(response);
+				},
+				complete: function(response) {
+					init();
+				}
+			});
+		});
+
+	}
+
+	var delete_functions = function() {
+
+		var default_del_btn = '#delete-user-btn';
+
+		function delete_user() {
+			
+			$('#homepage-content').off('click', default_del_btn);
+			$('#homepage-content').on('click', default_del_btn, function() {
+
+				var user_id = $(this).data('id');
+
+				delete_modal(user_id)
+			});
+
+		}
+
+		function delete_modal(user_id) {
+			var ajax_url = controller + '/delete_user_modal';
+
+			$.ajax({
+				url: ajax_url,
+				method: 'POST',
+				data: {user_id: user_id},
+				dataType: 'html',
+				beforeSend: function() {
+					modal.show_modal();
+				},
+				success: function(response) {
+					$(main_modal).html(response);
+				},
+				complete: function(response) {
+					delete_data(user_id);
+				}
+			});
+		}
+
+		function delete_data(id) {
+
+			var ajax_url = controller + '/delete_data',
+				btn_yes  = '.btn_yes';
+
+			$(btn_yes).on('click', function() {
+				
+				$.ajax({
+					url: ajax_url,
+					method: 'POST',
+					data: {user_id: id},
+					beforeSend: function() {
+
+					},
+					success: function(response) {
+						modal.hide_modal();
+					},
+					complete: function(response) {
+						init();
+					}
+				});
+			});
+			
+		}
+
+		return {
+			delete_user: delete_user,
+			delete_modal: delete_modal
+		}
+	}();
 
 	return {
 		init: init,

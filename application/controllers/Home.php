@@ -152,6 +152,20 @@ class Home extends CI_Controller {
 
 	}
 
+	public function delete_user_modal() {
+
+		$user_id = $this->input->post('user_id');
+
+		$modal_data['user_id'] = $user_id;
+		echo $this->load->view('modals/delete_modal', $modal_data);
+	}
+
+	public function delete_data() {
+		$user_id = $this->input->post('user_id');
+		$contacts_model = $this->main_model;
+
+		$contacts_model->delete_user($user_id);
+	}
 	
 
 } // end of class Home

@@ -18,7 +18,7 @@
 					<?php echo $user->username; ?>
 					</a></td>
 				<td>
-					<button type = "button" class="btn btn-danger btn-sm"><span class = "glyphicon glyphicon-trash"></span></button>
+					<button type = "button" class="btn btn-danger btn-sm" data-id = "<?php echo $user->user_id; ?>" id = "delete-user-btn"><span class = "glyphicon glyphicon-trash"></span></button>
 				</td>
 			<tr>
 			
