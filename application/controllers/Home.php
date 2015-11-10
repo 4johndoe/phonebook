@@ -123,8 +123,15 @@ class Home extends CI_Controller {
 	public function insert_data() {
 
 		$data = $this->input->post();
+		$contacts_model = $this->main_model;
 
-		var_dump($data)
+		if ($data) {
+
+			extract($data, EXTR_SKIP);
+
+			$contact_id = $contacts_model->insert_contact();
+		}
+		
 	}
 
 	

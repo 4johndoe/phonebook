@@ -132,11 +132,13 @@ Module.Phonebook = (function() {
 	function submit_data() {
 
 		var form_id = '#new-contact-form',
-			ajax_url = controller + 'insert_data';
+			ajax_url = controller + '/insert_data';
 		
-		$('#btn-save-data-id').unbind();
-		$('#btn-save-data-id').click(function(){
-			
+		
+		$(form_id).submit(function(e){
+				
+			e.preventDefault();
+
 			var data_submitted = $(form_id).serialize();
 			var data_sent = {
 				data_submitted: data_submitted
@@ -145,7 +147,16 @@ Module.Phonebook = (function() {
 			$.ajax({
 				url: ajax_url,
 				method: 'POST',
-				data: 
+				data: data_sent,
+				beforeSend: function() {
+
+				},
+				success: function(response) {
+					console.log(response);
+				},
+				complete: function(response) {
+					init();
+				}
 			});
 		});
 
@@ -160,7 +171,7 @@ Module.Phonebook = (function() {
 			size_tel = $('#added-phone-form-id').children().length;
 			
 		function add_number(){
-			//sample
+
 			$(input_div_mobile).on('click', '#add-mobile-num-id'  ,function() {
 				
 				if (size_mobile <= 2) {

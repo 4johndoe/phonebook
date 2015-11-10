@@ -6,7 +6,7 @@
       </div>
       <?php 
         $attr = array('class'=> 'form-horizontal', 'id' => 'new-contact-form');
-        echo form_open('', $attr);
+        echo form_open('Home/insert_data', $attr);
       ?>
       <div class="modal-body">
         <div class="form-group">
@@ -68,11 +68,12 @@
         <div id = "added-phone-form-id"></div>
         
       </div>
-      <?php echo form_close(); ?>
+      
       <div class="modal-footer">
         <button type="button" class="btn btn-default" id = "btn-close-modal-id" >Close</button>
-        <button type="button" class="btn btn-primary" id = "btn-save-data-id" >Save Contact</button>
+        <button type="submit" class="btn btn-primary" id = "btn-save-data-id" >Save Contact</button>
       </div>
     </div>
+    <?php echo form_close(); ?>
   </div>
 </div>

@@ -61,5 +61,10 @@
 			return $result;
 		}
 
+		/* INSERT */
+		public function insert_contact(){
+			
+		}
+
 	}
 ?>
