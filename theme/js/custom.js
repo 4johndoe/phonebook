@@ -15,8 +15,9 @@ Module.Phonebook = (function() {
 		}
 
 		function hide_modal() {
-			$(main_modal).modal('hide');
 			$(main_modal).html('');
+			$(main_modal).modal('hide');
+			
 		}
 
 		function close_modal_trigger(){
@@ -87,11 +88,10 @@ Module.Phonebook = (function() {
 			},
 			success: function(response) {
 				$(main_modal).html(response);
-				
-				console.log(response);
 			},
 			complete: function(response) {
 				modal.close_modal_trigger();
+				edit_functions.init(user_id);
 			}
 		});
 	}
@@ -299,9 +299,49 @@ Module.Phonebook = (function() {
 		}
 	}();
 
+	var edit_functions = function() {
+
+		var default_edit_btn = '#btn-edit-id';
+
+		function init(user_id) {
+			
+			$(default_edit_btn).on('click', function() {
+				edit_modal(user_id);
+				
+			});
+		}
+
+		function edit_modal(id) {
+
+			var ajax_url = controller + '/edit_modal';
+
+			$.ajax({
+				url: ajax_url,
+				method: 'GET',
+				data: {user_id: id},
+				dataType: 'html',
+				beforeSend: function() {					
+					modal.show_modal();
+				},
+				success: function(response) {
+					$(main_modal).html(response);
+					console.log(response);
+				},
+				complete: function(response) {
+								
+				}
+
+			});
+		}
+
+		return {
+			init: init
+		}
+	}();
+
 	return {
 		init: init,
-		modal: modal
+		modal: modal,
 		
 	}
 })();

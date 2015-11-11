@@ -44,6 +44,7 @@
       </div>
       <?php echo form_close(); ?>
       <div class="modal-footer">
+        <button type="button" class="btn btn-info" id = "btn-edit-id" ><span class = "glyphicon glyphicon-pencil"></span> Edit Info</button>
         <button type="button" class="btn btn-primary" id = "btn-close-modal-id" >Close</button>
       </div>
     </div>

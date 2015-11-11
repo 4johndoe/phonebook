@@ -169,6 +169,32 @@ class Home extends CI_Controller {
 		echo $response;
 	}
 	
+	public function edit_modal() {
+
+		$contacts_model = $this->main_model;
+		$user_id = $this->input->get('user_id');
+
+		$data_array = array();
+
+		$contacts_details = $contacts_model->get_user_details($user_id);
+		$user_details = $contacts_model->get_user($user_id);
+
+		$mobile = $this->get_networks_dropdown_menu('mobile');
+		$telephone = $this->get_networks_dropdown_menu('telephone');
+
+		$model_data['mobile_networks_dropdown'] = $mobile;
+		$model_data['tel_networks_dropdown'] = $telephone;
+
+
+		$data_array['first_name'] = $user_details->first_name;
+		$data_array['last_name'] = $user_details->last_name;
+		$data_array['email'] = $user_details->email;
+
+		$json = json_encode($data_array);
+		var_dump($json);
+		// echo $this->load->view('modals/edit_user_contact_modal', $model_data);
+
+	}
 
 } // end of class Home
 

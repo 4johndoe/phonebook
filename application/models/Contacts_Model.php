@@ -27,7 +27,7 @@
 
 		public function get_user($user_id) {
 			$sql = "
-					SELECT `user_id`, `email`, CONCAT(`first_name`, ' ' ,`last_name`) AS username FROM `user` WHERE `user_id` = ?
+					SELECT `user_id`,`first_name`, `last_name` ,`email`, CONCAT(`first_name`, ' ' ,`last_name`) AS username FROM `user` WHERE `user_id` = ?
 				";
 
 			$query = $this->db->query($sql, array($user_id));
