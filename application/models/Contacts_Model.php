@@ -11,6 +11,7 @@
 
 		}
 
+		/* GET */
 		public function get_all_users() {
 
 			$sql = "
@@ -61,6 +62,36 @@
 			return $result;
 		}
 
+		public function get_contact_details_by_filter($user_id = null, $type = null, $network = null) {
+
+			$where_concat = "";
+
+			if ($user_id != null || $user_id != '') {
+				$where_concat .= " AND  u.`user_id` = {$user_id}";
+			}
+
+			if ($type != null || $type != '') {
+				$where_concat .= " AND  n.`type` = '".$type."'";
+
+			}
+
+			if ($network != null || $network != '') {
+				$where_concat .= " AND c.`network_id` = {$network_id}";
+			}
+
+			$sql = "SELECT u.`user_id`, u.`first_name`, u.`last_name`, u.`email`, c.`contact_no`, n.`network_name`, n.`network_code`, n.`type` 
+						FROM `user` u
+						LEFT JOIN contact c ON u.`user_id` = c.`user_id`
+						LEFT JOIN network n ON c.`network_id` = n.`network_id` 
+						WHERE u.`user_id` IS NOT NULL {$where_concat}";
+
+			$query = $this->db->query($sql);
+			$result = $query->result();
+
+			return $result;
+
+		}
+
 		/* INSERT */
 		public function insert_new_user($first_name, $last_name, $email) {
 
@@ -89,6 +120,8 @@
 			return $result;
 		}
 
+
+		/* DELETE */
 		public function delete_user($user_id) {
 
 			$sql = "DELETE FROM `user` WHERE `user_id` = ?";

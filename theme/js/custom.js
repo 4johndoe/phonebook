@@ -306,25 +306,25 @@ Module.Phonebook = (function() {
 		function init(user_id) {
 			
 			$(default_edit_btn).on('click', function() {
-				edit_modal(user_id);
+				retrieve_user_data(user_id);
 				
 			});
 		}
 
-		function edit_modal(id) {
+		function retrieve_user_data(id) {
 
-			var ajax_url = controller + '/edit_modal';
+			var ajax_url = controller + '/retrieve_user_data';
 
 			$.ajax({
 				url: ajax_url,
 				method: 'GET',
 				data: {user_id: id},
-				dataType: 'html',
+				// dataType: 'json',
 				beforeSend: function() {					
-					modal.show_modal();
+					
 				},
 				success: function(response) {
-					$(main_modal).html(response);
+					
 					console.log(response);
 				},
 				complete: function(response) {

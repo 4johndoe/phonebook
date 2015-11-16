@@ -57,6 +57,7 @@ class Home extends CI_Controller {
 				case 'mobile':
 					$data = $this->obj_parser($detail);
 					array_push($mob_numbers, $data);
+
 					break;
 				case 'telephone':
 					$data = $this->obj_parser($detail);
@@ -169,14 +170,15 @@ class Home extends CI_Controller {
 		echo $response;
 	}
 	
-	public function edit_modal() {
+	//  Retrieve User Contact Data
+	public function retrieve_user_data() {
 
 		$contacts_model = $this->main_model;
 		$user_id = $this->input->get('user_id');
 
 		$data_array = array();
 
-		$contacts_details = $contacts_model->get_user_details($user_id);
+		$mobile_data = $contacts_model->get_contact_details_by_filter($user_id, "mobile");
 		$user_details = $contacts_model->get_user($user_id);
 
 		$mobile = $this->get_networks_dropdown_menu('mobile');
@@ -190,8 +192,8 @@ class Home extends CI_Controller {
 		$data_array['last_name'] = $user_details->last_name;
 		$data_array['email'] = $user_details->email;
 
-		$json = json_encode($data_array);
-		var_dump($json);
+		// $json_encode = json_encode($contacts_details);
+		var_dump($mobile_data);
 		// echo $this->load->view('modals/edit_user_contact_modal', $model_data);
 
 	}
