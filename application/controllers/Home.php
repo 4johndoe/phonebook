@@ -84,6 +84,10 @@ class Home extends CI_Controller {
 		$new_obj->number = $obj->contact_no;
 		$new_obj->network = $obj->network_name;
 
+		if (property_exists($obj, 'network_id')) {
+			$new_obj->network_id = $obj->network_id;
+		}
+
 		return $new_obj;
 	}
 
@@ -100,14 +104,17 @@ class Home extends CI_Controller {
 		echo $this->load->view('modals/create_new_contact_modal', $model_data);
 	}
 
-	public function get_networks_dropdown_menu($filter, $default_select = '--Select--', $default_select_id = null) {
+	public function get_networks_dropdown_menu($filter, $default_select_id = null, $default_select = '--Select--') {
 
 		$contacts_model = $this->main_model;
 		$networks_list = $contacts_model->get_networks($filter);
 
 		$options = '';
 		if ($default_select_id != null){
-			$options .= '<option value = "'.$default_select_id.'">'.$default_select.'</option>';
+			$network_name = $contacts_model->get_network_name($default_select_id);
+			$network_name = $network_name->network_name;
+
+			$options .= '<option value = "'.$default_select_id.'" selected>'.$network_name.'</option>';
 		} else {
 			$options .= '<option value = "">'.$default_select.'</option>';
 		}
@@ -177,8 +184,10 @@ class Home extends CI_Controller {
 		$user_id = $this->input->get('user_id');
 
 		$data_array = array();
+		$mobile_array = array();
 
 		$mobile_data = $contacts_model->get_contact_details_by_filter($user_id, "mobile");
+		$phone_data = $contacts_model->get_contact_details_by_filter($user_id, "telephone");
 		$user_details = $contacts_model->get_user($user_id);
 
 		$mobile = $this->get_networks_dropdown_menu('mobile');
@@ -192,8 +201,19 @@ class Home extends CI_Controller {
 		$data_array['last_name'] = $user_details->last_name;
 		$data_array['email'] = $user_details->email;
 
-		// $json_encode = json_encode($contacts_details);
-		var_dump($mobile_data);
+		
+		foreach ($mobile_data as $mob_data) {
+			$data = $this->obj_parser($mob_data);
+			array_push($mobile_array, $data);
+			$mobile_dropdown = $this->get_networks_dropdown_menu('mobile', $data->network_id);
+			array_push($mobile_array, $mobile_dropdown);
+			
+
+			var_dump($mobile_array);
+			
+		}
+
+		// var_dump($data_array);
 		// echo $this->load->view('modals/edit_user_contact_modal', $model_data);
 
 	}

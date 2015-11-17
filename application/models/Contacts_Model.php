@@ -62,6 +62,15 @@
 			return $result;
 		}
 
+		public function get_network_name($network_id) {
+			$sql = "SELECT `network_name` FROM `network` WHERE `network_id` = ? ";
+
+			$query = $this->db->query($sql, array($network_id));
+			$result = $query->row();
+
+			return $result;
+		}
+
 		public function get_contact_details_by_filter($user_id = null, $type = null, $network = null) {
 
 			$where_concat = "";
@@ -79,7 +88,7 @@
 				$where_concat .= " AND c.`network_id` = {$network_id}";
 			}
 
-			$sql = "SELECT u.`user_id`, u.`first_name`, u.`last_name`, u.`email`, c.`contact_no`, n.`network_name`, n.`network_code`, n.`type` 
+			$sql = "SELECT u.`user_id`, u.`first_name`, u.`last_name`, u.`email`, c.`contact_no`,n.`network_id`, n.`network_name`, n.`network_code`, n.`type` 
 						FROM `user` u
 						LEFT JOIN contact c ON u.`user_id` = c.`user_id`
 						LEFT JOIN network n ON c.`network_id` = n.`network_id` 

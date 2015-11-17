@@ -319,7 +319,6 @@ Module.Phonebook = (function() {
 				url: ajax_url,
 				method: 'GET',
 				data: {user_id: id},
-				// dataType: 'json',
 				beforeSend: function() {					
 					
 				},
@@ -332,6 +331,10 @@ Module.Phonebook = (function() {
 				}
 
 			});
+		}
+
+		function populate_edit_modal(json_data) {
+
 		}
 
 		return {
