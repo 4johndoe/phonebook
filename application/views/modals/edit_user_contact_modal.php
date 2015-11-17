@@ -12,12 +12,12 @@
         <div class="form-group">
            <label class="col-sm-2 control-label">First Name:</label>
            <div class = "col-md-3">
-             <input type="text" name="first_name" class="form-control" required>
+             <input type="text" name="first_name" class="form-control" value="<?php echo $first_name; ?>" required>
            </div>
 
             <label class="col-sm-2 control-label">Last Name:</label>
             <div class = "col-md-3">
-              <input type="text" name="last_name" class="form-control" required>
+              <input type="text" name="last_name" class="form-control" value="<?php echo $last_name; ?>" required>
             </div>
 
         </div>
@@ -25,7 +25,7 @@
         <div class="form-group">
            <label class="col-sm-2 control-label">Email:</label>
            <div class = "col-md-6">
-             <input class="form-control" name="email" type="email" required>
+             <input class="form-control" name="email" type="email" value="<?php echo $email; ?>" required>
            </div>
         </div>
 
