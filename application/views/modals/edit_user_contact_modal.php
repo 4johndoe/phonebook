@@ -32,21 +32,31 @@
         <h3 style="padding-top: 10px; padding-bottom:25px;">Contact Numbers</h3>
 
         <div id = "mobile-numbers-row-id">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">Mobile no:</label>
-              <div class = "col-md-3">
-                <input type="number" class="form-control" name="mobile_number[]">
-              </div>
-              <label class="col-sm-2 control-label">Network:</label>
-              <div class = "col-md-3">
-                <select class="form-control" name="mobile_network[]">
-                  <?php echo $mobile_networks_dropdown; ?>
-                </select>
-              </div>
-              <button class="btn btn-info btn-sm" type="button" id = "add-mobile-num-id"><span class="glyphicon glyphicon-plus"></span></button>
+          <?php 
+            $count = 0;
+          foreach ($mobile_details as $mobile_data) { ?>
 
-          </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Mobile no:</label>
+                <div class = "col-md-3">
+                  <input type="number" class="form-control" name="mobile_number[]" value = "<?php echo $mobile_data->number; ?>">
+                </div>
+                <label class="col-sm-2 control-label">Network:</label>
+                <div class = "col-md-3">
+                  <select class="form-control" name="mobile_network[]">
+                    <?php echo $mobile_data->network; ?>
+                  </select>
+                </div>
+                <?php if ($count == 0 ) { ?>
+                  <button class="btn btn-info btn-sm" type="button" id = "add-mobile-num-id"><span class="glyphicon glyphicon-plus"></span></button>
+                <?php } else { ?>
+                  <button class="btn btn-danger btn-sm" type="button" id = "remove-mobile-num-id"><span class="glyphicon glyphicon-minus"></span></button>
+                <?php } ?>
+            </div>
+
+          <?php $count++;  } ?>
         </div>
+
         <div id = "added-mobile-form-id"></div>
 
         <div id = "tel-numbers-row-id">

@@ -306,12 +306,12 @@ Module.Phonebook = (function() {
 		function init(user_id) {
 			
 			$(default_edit_btn).on('click', function() {
-				retrieve_user_data(user_id);
+				edit_modal(user_id);
 				
 			});
 		}
 
-		function retrieve_user_data(id) {
+		function edit_modal(id) {
 
 			var ajax_url = controller + '/retrieve_user_data';
 
@@ -320,10 +320,10 @@ Module.Phonebook = (function() {
 				method: 'GET',
 				data: {user_id: id},
 				beforeSend: function() {					
-					
+					modal.show_modal();
 				},
 				success: function(response) {
-					
+					$(main_modal).html(response);
 					console.log(response);
 				},
 				complete: function(response) {
@@ -333,9 +333,7 @@ Module.Phonebook = (function() {
 			});
 		}
 
-		function populate_edit_modal(json_data) {
-
-		}
+		
 
 		return {
 			init: init

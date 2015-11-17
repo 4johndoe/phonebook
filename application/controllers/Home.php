@@ -121,7 +121,11 @@ class Home extends CI_Controller {
 
 
 		foreach ($networks_list as $network) {
-			$options .= '<option value = "'.$network->network_id.'">'.$network->network_name.'</option>';
+			// Avoid concatinating the selected option in the dropdown
+			if ($network->network_id != $default_select_id) {
+				$options .= '<option value = "'.$network->network_id.'">'.$network->network_name.'</option>';
+			}
+			
 		}
 
 		return $options;
@@ -193,28 +197,27 @@ class Home extends CI_Controller {
 		$mobile = $this->get_networks_dropdown_menu('mobile');
 		$telephone = $this->get_networks_dropdown_menu('telephone');
 
-		$model_data['mobile_networks_dropdown'] = $mobile;
+		// $model_data['mobile_networks_dropdown'] = $mobile;
 		$model_data['tel_networks_dropdown'] = $telephone;
+		
+		foreach ($mobile_data as $mob_data) {
+			$mobile_obj = new stdClass();
+			
+			$mobile_dropdown = $this->get_networks_dropdown_menu('mobile', $mob_data->network_id);
+			$mobile_obj->number = $mob_data->contact_no;
+			$mobile_obj->network = $mobile_dropdown;
 
+			//push object to the mobile array
+			array_push($mobile_array, $mobile_obj);
 
+		}
+		
 		$data_array['first_name'] = $user_details->first_name;
 		$data_array['last_name'] = $user_details->last_name;
 		$data_array['email'] = $user_details->email;
-
+		$data_array['mobile_details'] = $mobile_array;
 		
-		foreach ($mobile_data as $mob_data) {
-			$data = $this->obj_parser($mob_data);
-			array_push($mobile_array, $data);
-			$mobile_dropdown = $this->get_networks_dropdown_menu('mobile', $data->network_id);
-			array_push($mobile_array, $mobile_dropdown);
-			
-
-			var_dump($mobile_array);
-			
-		}
-
-		// var_dump($data_array);
-		// echo $this->load->view('modals/edit_user_contact_modal', $model_data);
+		echo $this->load->view('modals/edit_user_contact_modal', $data_array);
 
 	}
 
