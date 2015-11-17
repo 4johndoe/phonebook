@@ -372,7 +372,20 @@ Module.Phonebook = (function() {
 				$mobile_wrapper = $main_modal.find('div#added-mobile-form-id'),
 				$phone_wrapper = $main_modal.find('div#added-phone-form-id');
 
-			
+			var remove_btn_mob = '<button class="btn btn-danger btn-sm" type="button" id = "remove-mobile-num-id"><span class="glyphicon glyphicon-minus"></span></button>';
+
+			var mobile_details = json_data.mobile_details, // arrays containing (objects) the mobile nos of the user
+				phone_details = json_data.phone_details; // arrays containing (objects) the phone nos of the user
+
+
+			for (var i in mobile_details) {
+				if (i == 0) {
+					$('input.mobile-number').val(mobile_details[i].number);
+					$('#mobile-network-dropdown').html(mobile_details[i].network);
+				}
+				
+				
+			}
 
 			$first_name_input.val(json_data.first_name);
 			$last_name_input.val(json_data.last_name);
