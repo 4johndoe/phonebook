@@ -5,19 +5,19 @@
         <h4 class="modal-title" id="myModalLabel">New Contact</h4>
       </div>
       <?php 
-        $attr = array('class'=> 'form-horizontal', 'id' => 'new-contact-form');
+        $attr = array('class'=> 'form-horizontal', 'id' => 'edit-contact-form');
         echo form_open('Home/insert_data', $attr);
       ?>
       <div class="modal-body">
         <div class="form-group">
            <label class="col-sm-2 control-label">First Name:</label>
            <div class = "col-md-3">
-             <input type="text" name="first_name" class="form-control" value="<?php echo $first_name; ?>" required>
+             <input type="text" name="first_name" class="form-control" required>
            </div>
 
             <label class="col-sm-2 control-label">Last Name:</label>
             <div class = "col-md-3">
-              <input type="text" name="last_name" class="form-control" value="<?php echo $last_name; ?>" required>
+              <input type="text" name="last_name" class="form-control" required>
             </div>
 
         </div>
@@ -25,64 +25,44 @@
         <div class="form-group">
            <label class="col-sm-2 control-label">Email:</label>
            <div class = "col-md-6">
-             <input class="form-control" name="email" type="email" value="<?php echo $email; ?>" required>
+             <input class="form-control" name="email" type="email" required>
            </div>
         </div>
 
         <h3 style="padding-top: 10px; padding-bottom:25px;">Contact Numbers</h3>
 
         <div id = "mobile-numbers-row-id">
-          <?php 
-            $count = 0;
-          foreach ($mobile_details as $mobile_data) { ?>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Mobile no:</label>
+              <div class = "col-md-3">
+                <input type="number" class="form-control" name="mobile_number[]">
+              </div>
+              <label class="col-sm-2 control-label">Network:</label>
+              <div class = "col-md-3">
+                <select class="form-control" id = "mobile-network-dropdown" name="mobile_network[]">
+                  
+                </select>
+              </div>
+              <button class="btn btn-info btn-sm" type="button" id = "add-mobile-num-id"><span class="glyphicon glyphicon-plus"></span></button>
 
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Mobile no:</label>
-                <div class = "col-md-3">
-                  <input type="number" class="form-control" name="mobile_number[]" value = "<?php echo $mobile_data->number; ?>">
-                </div>
-                <label class="col-sm-2 control-label">Network:</label>
-                <div class = "col-md-3">
-                  <select class="form-control" name="mobile_network[]">
-                    <?php echo $mobile_data->network; ?>
-                  </select>
-                </div>
-                <?php if ($count == 0 ) { ?>
-                  <button class="btn btn-info btn-sm" type="button" id = "add-mobile-num-id"><span class="glyphicon glyphicon-plus"></span></button>
-                <?php } else { ?>
-                  <button class="btn btn-danger btn-sm" type="button" id = "remove-mobile-num-id"><span class="glyphicon glyphicon-minus"></span></button>
-                <?php } ?>
-            </div>
-
-          <?php $count++;  } ?>
+          </div>
         </div>
-
         <div id = "added-mobile-form-id"></div>
 
         <div id = "tel-numbers-row-id">
-          <?php 
-            $count1 = 0;
-            foreach ($phone_details as $phone) {
-          ?>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Telephone no(s):</label>
-                <div class = "col-md-3">
-                  <input type="number" class="form-control" name="phone_number[]" value="<?php echo $phone->number; ?>">
-                </div>
-                <label class="col-sm-2 control-label">Network:</label>
-                <div class = "col-md-3">
-                  <select class="form-control" name="phone_network[]">
-                    <?php echo $phone->network; ?>
-                  </select>
-                </div>
-
-                <?php if ($count1 == 0) { ?>
-                  <button class="btn btn-info btn-sm" type="button" id = "add-tel-num-id"><span class="glyphicon glyphicon-plus"></span></button>
-                <?php } else { ?>
-                  <button class="btn btn-danger btn-sm" type="button" id = "remove-mobile-num-id"><span class="glyphicon glyphicon-minus"></span></button>
-                <?php } ?>
-            </div>
-          <?php $count1++; } ?>
+          <div class="form-group">
+              <label class="col-sm-2 control-label">Telephone no(s):</label>
+              <div class = "col-md-3">
+                <input type="number" class="form-control" name="phone_number[]">
+              </div>
+              <label class="col-sm-2 control-label">Network:</label>
+              <div class = "col-md-3">
+                <select class="form-control" id = "phone-network-dropdown" name="phone_network[]">
+                  
+                </select>
+              </div>
+              <button class="btn btn-info btn-sm" type="button" id = "add-tel-num-id"><span class="glyphicon glyphicon-plus"></span></button>
+          </div>
         </div>
         
         <div id = "added-phone-form-id"></div>

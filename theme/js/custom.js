@@ -301,17 +301,19 @@ Module.Phonebook = (function() {
 
 	var edit_functions = function() {
 
-		var default_edit_btn = '#btn-edit-id';
+		var default_edit_btn = '#btn-edit-id',
+			$main_modal = $(main_modal);
 
 		function init(user_id) {
 			
 			$(default_edit_btn).on('click', function() {
-				edit_modal(user_id);
+				retrieve_user_data(user_id);
 				
 			});
 		}
 
-		function edit_modal(id) {
+		//trigger retrieve current user data
+		function retrieve_user_data(id) {
 
 			var ajax_url = controller + '/retrieve_user_data';
 
@@ -319,20 +321,65 @@ Module.Phonebook = (function() {
 				url: ajax_url,
 				method: 'GET',
 				data: {user_id: id},
-				beforeSend: function() {					
-					modal.show_modal();
-				},
+				dataType: 'json',
 				success: function(response) {
-					$(main_modal).html(response);
-					console.log(response);
+					// $(main_modal).html(response);
+					// console.log(respose);
 				},
 				complete: function(response) {
-								
+					var return_data = $.parseJSON(response.responseText);
+					// console.log(return_data);
+					populate_modal(return_data);
 				}
 
 			});
 		}
 
+		//populate modal from parsed json data
+		function populate_modal(parsed_json) {
+
+			var ajax_url = controller + '/edit_modal';
+
+			$.ajax({
+				url: ajax_url,
+				method: 'GET',
+				dataType: 'html',
+				beforeSend: function(){
+					modal.show_modal();
+				},
+				success: function(response) {
+					$main_modal.html(response);
+				},
+				complete: function(response) {
+					_populate($main_modal, parsed_json);
+
+				}
+			});
+
+		}
+
+		function _populate($main_modal, json_data) {
+			console.log(json_data);
+
+			// define the input fields
+			var $first_name_input = $main_modal.find('input[name=first_name]'),
+				$last_name_input = $main_modal.find('input[name=last_name]'),
+				$email_input = $main_modal.find('input[name=email]');
+
+			//contact details div groups and wrappers
+			var $orig_mobile_div = $main_modal.find('div#mobile-numbers-row-id'),
+				$orig_phone_div = $main_modal.find('div#tel-numbers-row-id'),
+				$mobile_wrapper = $main_modal.find('div#added-mobile-form-id'),
+				$phone_wrapper = $main_modal.find('div#added-phone-form-id');
+
+			
+
+			$first_name_input.val(json_data.first_name);
+			$last_name_input.val(json_data.last_name);
+			$email_input.val(json_data.email);
+
+			// console.log(json_data.mobile_details[0].number);
+		}
 		
 
 		return {

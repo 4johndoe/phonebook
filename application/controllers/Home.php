@@ -226,11 +226,25 @@ class Home extends CI_Controller {
 		$data_array['first_name'] = $user_details->first_name;
 		$data_array['last_name'] = $user_details->last_name;
 		$data_array['email'] = $user_details->email;
+
+		if (sizeof($telephone) == 0) {
+			$data_array['phone_details'] = $telephone;
+		} else {
+			$data_array['phone_details'] = $phone_array;
+		}
 		$data_array['mobile_details'] = $mobile_array;
 		$data_array['phone_details'] = $phone_array;
-		
-		echo $this->load->view('modals/edit_user_contact_modal', $data_array);
 
+		$json_encoded = json_encode($data_array);
+		echo $json_encoded;
+		// echo $this->load->view('modals/edit_user_contact_modal', $data_array);
+
+	}
+
+	// trigger the edit modal view
+	public function edit_modal() {
+
+		echo $this->load->view('modals/edit_user_contact_modal');
 	}
 
 } // end of class Home
