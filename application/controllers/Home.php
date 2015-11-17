@@ -189,6 +189,7 @@ class Home extends CI_Controller {
 
 		$data_array = array();
 		$mobile_array = array();
+		$phone_array = array();
 
 		$mobile_data = $contacts_model->get_contact_details_by_filter($user_id, "mobile");
 		$phone_data = $contacts_model->get_contact_details_by_filter($user_id, "telephone");
@@ -197,7 +198,6 @@ class Home extends CI_Controller {
 		$mobile = $this->get_networks_dropdown_menu('mobile');
 		$telephone = $this->get_networks_dropdown_menu('telephone');
 
-		// $model_data['mobile_networks_dropdown'] = $mobile;
 		$model_data['tel_networks_dropdown'] = $telephone;
 		
 		foreach ($mobile_data as $mob_data) {
@@ -211,11 +211,23 @@ class Home extends CI_Controller {
 			array_push($mobile_array, $mobile_obj);
 
 		}
+
+		foreach ($phone_data as $tp_data) {
+			$phone_obj = new stdClass();
+
+			$phone_dropdown = $this->get_networks_dropdown_menu('mobile', $tp_data->network_id);
+			$phone_obj->number = $mob_data->contact_no;
+			$phone_obj->network = $phone_dropdown;
+
+			//push object to the mobile array
+			array_push($phone_array, $phone_obj);
+		}
 		
 		$data_array['first_name'] = $user_details->first_name;
 		$data_array['last_name'] = $user_details->last_name;
 		$data_array['email'] = $user_details->email;
 		$data_array['mobile_details'] = $mobile_array;
+		$data_array['phone_details'] = $phone_array;
 		
 		echo $this->load->view('modals/edit_user_contact_modal', $data_array);
 

@@ -60,19 +60,29 @@
         <div id = "added-mobile-form-id"></div>
 
         <div id = "tel-numbers-row-id">
-          <div class="form-group">
-              <label class="col-sm-2 control-label">Telephone no(s):</label>
-              <div class = "col-md-3">
-                <input type="number" class="form-control" name="phone_number[]">
-              </div>
-              <label class="col-sm-2 control-label">Network:</label>
-              <div class = "col-md-3">
-                <select class="form-control" name="phone_network[]">
-                  <?php echo $tel_networks_dropdown; ?>
-                </select>
-              </div>
-              <button class="btn btn-info btn-sm" type="button" id = "add-tel-num-id"><span class="glyphicon glyphicon-plus"></span></button>
-          </div>
+          <?php 
+            $count1 = 0;
+            foreach ($phone_details as $phone) {
+          ?>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Telephone no(s):</label>
+                <div class = "col-md-3">
+                  <input type="number" class="form-control" name="phone_number[]" value="<?php echo $phone->number; ?>">
+                </div>
+                <label class="col-sm-2 control-label">Network:</label>
+                <div class = "col-md-3">
+                  <select class="form-control" name="phone_network[]">
+                    <?php echo $phone->network; ?>
+                  </select>
+                </div>
+
+                <?php if ($count1 == 0) { ?>
+                  <button class="btn btn-info btn-sm" type="button" id = "add-tel-num-id"><span class="glyphicon glyphicon-plus"></span></button>
+                <?php } else { ?>
+                  <button class="btn btn-danger btn-sm" type="button" id = "remove-mobile-num-id"><span class="glyphicon glyphicon-minus"></span></button>
+                <?php } ?>
+            </div>
+          <?php $count1++; } ?>
         </div>
         
         <div id = "added-phone-form-id"></div>
