@@ -371,7 +371,7 @@ Module.Phonebook = (function() {
 				$orig_phone_div = $main_modal.find('div#tel-numbers-row-id'),
 				$mobile_wrapper = $main_modal.find('div#added-mobile-form-id'),
 				$phone_wrapper = $main_modal.find('div#added-phone-form-id');
-
+				
 			var remove_btn_mob = '<button class="btn btn-danger btn-sm" type="button" id = "remove-mobile-num-id"><span class="glyphicon glyphicon-minus"></span></button>';
 
 			var mobile_details = json_data.mobile_details, // arrays containing (objects) the mobile nos of the user
@@ -379,18 +379,20 @@ Module.Phonebook = (function() {
 
 
 			for (var i in mobile_details) {
-				if (i == 0) {
-					$('input.mobile-number').val(mobile_details[i].number);
-					$('#mobile-network-dropdown').html(mobile_details[i].network);
+				
+				if (i == 0 ) {
+					$orig_mobile_div.find('input.mobile-number').val(mobile_details[i].number);
+					$orig_mobile_div.find('#mobile-network-dropdown').html(mobile_details[i].network);
 				}
-				
-				
+				// $mobile_wrapper.append($orig_mobile_div.html()).find('input[name=mobile_number]').val(mobile_details[i].number);
+
+				console.log(mobile_details[i].number);
 			}
 
 			$first_name_input.val(json_data.first_name);
 			$last_name_input.val(json_data.last_name);
 			$email_input.val(json_data.email);
-
+			
 			// console.log(json_data.mobile_details[0].number);
 		}
 		

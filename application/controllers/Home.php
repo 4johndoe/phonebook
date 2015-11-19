@@ -209,7 +209,7 @@ class Home extends CI_Controller {
 
 			//push object to the mobile array
 			array_push($mobile_array, $mobile_obj);
-
+			unset($mobile_obj);
 		}
 
 		foreach ($phone_data as $tp_data) {
@@ -221,6 +221,7 @@ class Home extends CI_Controller {
 
 			//push object to the mobile array
 			array_push($phone_array, $phone_obj);
+			unset($phone_obj);
 		}
 		
 		$data_array['first_name'] = $user_details->first_name;
