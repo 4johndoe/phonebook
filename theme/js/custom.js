@@ -352,6 +352,7 @@ Module.Phonebook = (function() {
 				},
 				complete: function(response) {
 					_populate($main_modal, parsed_json);
+					dynamic_form.add_number();
 
 				}
 			});
@@ -372,6 +373,7 @@ Module.Phonebook = (function() {
 				$mobile_wrapper = $main_modal.find('div#added-mobile-form-id'),
 				$phone_wrapper = $main_modal.find('div#added-phone-form-id');
 				
+				
 			var remove_btn_mob = '<button class="btn btn-danger btn-sm" type="button" id = "remove-mobile-num-id"><span class="glyphicon glyphicon-minus"></span></button>';
 
 			var mobile_details = json_data.mobile_details, // arrays containing (objects) the mobile nos of the user
@@ -383,10 +385,37 @@ Module.Phonebook = (function() {
 				if (i == 0 ) {
 					$orig_mobile_div.find('input.mobile-number').val(mobile_details[i].number);
 					$orig_mobile_div.find('#mobile-network-dropdown').html(mobile_details[i].network);
+				} else {
+					var class_name = 'div-'+ i
+						append_div = '<div id = "'+ class_name +'"></div>';
+
+					$mobile_wrapper.append(append_div);
+					$('#'+class_name).append($orig_mobile_div.html()).find('input.mobile-number').val(mobile_details[i].number);
+					$('#'+class_name).find('#mobile-network-dropdown').html(mobile_details[i].network);
+					$('#'+class_name).find('label').empty();
+					$('#'+class_name).find('#add-mobile-num-id').replaceWith(remove_btn_mob);
 				}
-				// $mobile_wrapper.append($orig_mobile_div.html()).find('input[name=mobile_number]').val(mobile_details[i].number);
 
 				console.log(mobile_details[i].number);
+			}
+
+			for (var v in phone_details) {
+				
+				if (v == 0 ) {
+					$orig_phone_div.find('input.phone-number').val(phone_details[v].number);
+					$orig_phone_div.find('#phone-network-dropdown').html(phone_details[v].network);
+				} else {
+					var class_name = 'div-'+ v,
+						append_div = '<div id = "'+ class_name +'"></div>';
+
+					$phone_wrapper.append(append_div);
+					$('#'+class_name).append($orig_phone_div.html()).find('input.phone-number').val(phone_details[v].number);
+					$('#'+class_name).find('#phone-network-dropdown').html(phone_details[v].network);
+					$('#'+class_name).find('label').empty();
+					$('#'+class_name).find('#add-mobile-num-id').replaceWith(remove_btn_mob);
+				}
+
+				console.log(phone_details[v].number);
 			}
 
 			$first_name_input.val(json_data.first_name);

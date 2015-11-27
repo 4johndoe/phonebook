@@ -53,7 +53,7 @@
           <div class="form-group">
               <label class="col-sm-2 control-label">Telephone no(s):</label>
               <div class = "col-md-3">
-                <input type="number" class="form-control" name="phone_number[]">
+                <input type="number" class="form-control phone-number" name="phone_number[]">
               </div>
               <label class="col-sm-2 control-label">Network:</label>
               <div class = "col-md-3">
