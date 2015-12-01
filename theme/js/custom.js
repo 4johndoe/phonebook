@@ -124,7 +124,7 @@ Module.Phonebook = (function() {
 			},
 			complete: function(response) {
 				modal.close_modal_trigger();
-				dynamic_form.add_number();
+				dynamic_form.init();
 				submit_data();
 			}
 		});
@@ -135,46 +135,79 @@ Module.Phonebook = (function() {
 			input_div_tel = '#tel-numbers-row-id',
 			remove_btn_mob = '<button class="btn btn-danger btn-sm" type="button" id = "remove-mobile-num-id"><span class="glyphicon glyphicon-minus"></span></button>';
 
-		var size_mobile = $('#added-mobile-form-id').children().length,
-			size_tel = $('#added-phone-form-id').children().length;
-			
-		function add_number(){
+		var size_mobile, size_tel;
 
-			$(input_div_mobile).on('click', '#add-mobile-num-id'  ,function() {
+		var add_btn_mobile = '#add-mobile-num-id',
+			add_btn_phone = '#add-tel-num-id',
+			remove_btn = '#remove-mobile-num-id';
+
+		function init() {
+			click(input_div_mobile, add_btn_mobile);
+			click(input_div_tel, add_btn_phone);	
+		}
+
+		function click(div_wrapper, selector) {
+			$(div_wrapper).on('click', selector, function() {
+				
+				var type = $(this).data('type');
+				add_number(type, div_wrapper);
+				
+
+			});
+		}
+			
+		function add_number(type, value){ // value -json [{'number': value}, {'network': value}]
+			
+			size_mobile = $('#added-mobile-form-id').children().length;
+			size_tel = $('#added-phone-form-id').children().length;
+			console.log(size_mobile);
+			if (type == 'mobile') {
+
+				var class_name = 'div-mobile-'+ size_mobile;
+				var div_class = '<div class = "'+ class_name +'"></div>';
 				
 				if (size_mobile <= 2) {
-					$('#added-mobile-form-id').append($(input_div_mobile).html())
+
+					$('#added-mobile-form-id').append(div_class);
+					$('.' + class_name).append($(input_div_mobile).html())
 											.find('#add-mobile-num-id')
 											.replaceWith(remove_btn_mob);
+					
 					$('#added-mobile-form-id').find('label').empty();
 					size_mobile += 1;
 				} else {
 					$(input_div_mobile).find('#add-mobile-num-id').addClass('disabled');
 				}
-			});
-			
-			
-			$(input_div_tel).on('click', '#add-tel-num-id', function() {
-				if (size_tel <= 2) {
-					$('#added-phone-form-id').append($(input_div_tel).html())
+			} else {
+				var class_name = 'div-tel-'+ size_tel;
+				var div_class = '<div class = "'+ class_name +'"></div>';
+
+				if (size_tel <= 1) {
+					$('#added-phone-form-id').append(div_class);
+					$('.' + class_name).append($(input_div_tel).html())
 											.find('#add-tel-num-id')
 											.replaceWith(remove_btn_mob);
+					
+
 					$('#added-phone-form-id').find('label').empty();
 					size_tel += 1;
 				} else {
 					$(input_div_tel).find('#add-tel-num-id').addClass('disabled');
 				}
-					
-			});
+
+			}
+			
 			
 
 			remove_number();
 		}
 
 		function remove_number() {
+			size_mobile = $('#added-mobile-form-id').children().length;
+			size_tel = $('#added-phone-form-id').children().length;
 
 			$('#added-mobile-form-id').on('click', '#remove-mobile-num-id', function() {
-				$(this).parent('.form-group').remove();
+				$(this).parent().parent().remove();
 
 				size_mobile = size_mobile - 1;
 
@@ -184,7 +217,7 @@ Module.Phonebook = (function() {
 			});
 
 			$('#added-phone-form-id').on('click', '#remove-mobile-num-id', function() {
-				$(this).parent('.form-group').remove();
+				$(this).parent().parent().remove();
 
 				size_tel = size_tel - 1;
 
@@ -195,6 +228,7 @@ Module.Phonebook = (function() {
 		}
 
 		return {
+			init: init,
 			add_number: add_number
 			
 		}

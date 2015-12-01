@@ -43,7 +43,7 @@
                   <?php echo $mobile_networks_dropdown; ?>
                 </select>
               </div>
-              <button class="btn btn-info btn-sm" type="button" id = "add-mobile-num-id"><span class="glyphicon glyphicon-plus"></span></button>
+              <button class="btn btn-info btn-sm" type="button" id = "add-mobile-num-id" data-type= "mobile"><span class="glyphicon glyphicon-plus"></span></button>
 
           </div>
         </div>
@@ -61,7 +61,7 @@
                   <?php echo $tel_networks_dropdown; ?>
                 </select>
               </div>
-              <button class="btn btn-info btn-sm" type="button" id = "add-tel-num-id"><span class="glyphicon glyphicon-plus"></span></button>
+              <button class="btn btn-info btn-sm" type="button" id = "add-tel-num-id" data-type= "phone"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
         </div>
         
