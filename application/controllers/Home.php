@@ -194,9 +194,10 @@ class Home extends CI_Controller {
 		$mobile_data = $contacts_model->get_contact_details_by_filter($user_id, "mobile");
 		$phone_data = $contacts_model->get_contact_details_by_filter($user_id, "telephone");
 		$user_details = $contacts_model->get_user($user_id);
-
+		
 		$mobile = $this->get_networks_dropdown_menu('mobile');
 		$telephone = $this->get_networks_dropdown_menu('telephone');
+
 
 		
 		foreach ($mobile_data as $mob_data) {
@@ -227,7 +228,7 @@ class Home extends CI_Controller {
 		$data_array['last_name'] = $user_details->last_name;
 		$data_array['email'] = $user_details->email;
 
-		
+
 		$data_array['mobile_details'] = $mobile_array;
 		$data_array['phone_details'] = $phone_array;
 
@@ -245,4 +246,3 @@ class Home extends CI_Controller {
 
 } // end of class Home
 
-/* End of file welcome.php */

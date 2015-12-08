@@ -2,11 +2,11 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Contact</h4>
+        <h4 class="modal-title" id="myModalLabel">Edit Contact</h4>
       </div>
       <?php 
         $attr = array('class'=> 'form-horizontal', 'id' => 'edit-contact-form');
-        echo form_open('Home/insert_data', $attr);
+        echo form_open('', $attr);
       ?>
       <div class="modal-body">
         <div class="form-group">
@@ -61,7 +61,7 @@
                   
                 </select>
               </div>
-              <button class="btn btn-info btn-sm" type="button" id = "add-tel-num-id"><span class="glyphicon glyphicon-plus"></span></button>
+              <button class ="btn btn-info btn-sm" type="button" id = "add-tel-num-id"><span class="glyphicon glyphicon-plus"></span></button>
           </div>
         </div>
         

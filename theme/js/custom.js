@@ -150,51 +150,79 @@ Module.Phonebook = (function() {
 			$(div_wrapper).on('click', selector, function() {
 				
 				var type = $(this).data('type');
-				add_number(type, div_wrapper);
+				var $obj = {};
+					$obj.number_type = type;
+					$obj.number = null;
+					$obj.networl = null;
+					
+				add_number($obj);
 				
 
 			});
 		}
 			
-		function add_number(type, value){ // value -json [{'number': value}, {'network': value}]
+		function add_number($obj){ 
 			
 			size_mobile = $('#added-mobile-form-id').children().length;
 			size_tel = $('#added-phone-form-id').children().length;
-			console.log(size_mobile);
-			if (type == 'mobile') {
+			// var number, network, number_type;
+				// console.log(typeof $obj)
+			
+			if ($obj == undefined) {
 
-				var class_name = 'div-mobile-'+ size_mobile;
-				var div_class = '<div class = "'+ class_name +'"></div>';
-				
-				if (size_mobile <= 2) {
+				$obj = {};
+				$obj.number = null;
+				$obj.number_type = null;
+				$obj.network = null;
+			}
+			// console.log($obj);
+			switch ($obj.number_type) {
+				case 'mobile':
+						var class_name = 'div-mobile-'+ size_mobile;
+						var div_class = '<div class = "'+ class_name +'"></div>';
+						
 
-					$('#added-mobile-form-id').append(div_class);
-					$('.' + class_name).append($(input_div_mobile).html())
-											.find('#add-mobile-num-id')
-											.replaceWith(remove_btn_mob);
-					
-					$('#added-mobile-form-id').find('label').empty();
-					size_mobile += 1;
-				} else {
-					$(input_div_mobile).find('#add-mobile-num-id').addClass('disabled');
-				}
-			} else {
-				var class_name = 'div-tel-'+ size_tel;
-				var div_class = '<div class = "'+ class_name +'"></div>';
+						if (size_mobile <= 2) {
 
-				if (size_tel <= 1) {
-					$('#added-phone-form-id').append(div_class);
-					$('.' + class_name).append($(input_div_tel).html())
-											.find('#add-tel-num-id')
-											.replaceWith(remove_btn_mob);
-					
+							$('#added-mobile-form-id').append(div_class);
+							$('.' + class_name).append($(input_div_mobile).html())
+													.find('#add-mobile-num-id')
+													.replaceWith(remove_btn_mob);
 
-					$('#added-phone-form-id').find('label').empty();
-					size_tel += 1;
-				} else {
-					$(input_div_tel).find('#add-tel-num-id').addClass('disabled');
-				}
+							$('.' + class_name).find('input.mobile-number').val($obj.number);
+							$('.' + class_name).find('select#mobile-network-dropdown').html($obj.network);
 
+							$('#added-mobile-form-id').find('label').empty();
+
+							size_mobile += 1;
+
+						} else {
+							$(input_div_mobile).find('#add-mobile-num-id').addClass('disabled');
+						}
+					break;
+				/*case 'phone':
+						var class_name = 'div-tel-'+ size_tel;
+						var div_class = '<div class = "'+ class_name +'"></div>';
+						
+						if (size_tel <= 1) {
+
+							$('#added-phone-form-id').append(div_class);
+							$('.' + class_name).append($(input_div_tel).html())
+													.find('#add-tel-num-id')
+													.replaceWith(remove_btn_mob);
+
+							$('.' + class_name).find('input.phone-number').val(add_number.number);
+							$('.' + class_name).find('select#phone-network-dropdown').html(add_number.network);
+
+							$('#added-phone-form-id').find('label').empty();
+
+							size_tel += 1;
+						} else {
+							$(input_div_tel).find('#add-tel-num-id').addClass('disabled');
+						}
+					break;*/
+				default:
+					// do nothing
 			}
 			
 			
@@ -229,7 +257,8 @@ Module.Phonebook = (function() {
 
 		return {
 			init: init,
-			add_number: add_number
+			add_number: add_number,
+
 			
 		}
 	}();
@@ -356,13 +385,9 @@ Module.Phonebook = (function() {
 				method: 'GET',
 				data: {user_id: id},
 				dataType: 'json',
-				success: function(response) {
-					// $(main_modal).html(response);
-					// console.log(respose);
-				},
 				complete: function(response) {
 					var return_data = $.parseJSON(response.responseText);
-					// console.log(return_data);
+					console.log(return_data);
 					populate_modal(return_data);
 				}
 
@@ -386,7 +411,7 @@ Module.Phonebook = (function() {
 				},
 				complete: function(response) {
 					_populate($main_modal, parsed_json);
-					dynamic_form.add_number();
+
 
 				}
 			});
@@ -394,7 +419,8 @@ Module.Phonebook = (function() {
 		}
 
 		function _populate($main_modal, json_data) {
-			console.log(json_data);
+			// console.log(json_data.mobile_details );
+			
 
 			// define the input fields
 			var $first_name_input = $main_modal.find('input[name=first_name]'),
@@ -412,45 +438,46 @@ Module.Phonebook = (function() {
 
 			var mobile_details = json_data.mobile_details, // arrays containing (objects) the mobile nos of the user
 				phone_details = json_data.phone_details; // arrays containing (objects) the phone nos of the user
-
-
-			for (var i in mobile_details) {
 				
-				if (i == 0 ) {
-					$orig_mobile_div.find('input.mobile-number').val(mobile_details[i].number);
-					$orig_mobile_div.find('#mobile-network-dropdown').html(mobile_details[i].network);
-				} else {
-					var class_name = 'div-'+ i
-						append_div = '<div id = "'+ class_name +'"></div>';
+			var count_mobile = mobile_details.length,
+				count_phone = phone_details.length;
 
-					$mobile_wrapper.append(append_div);
-					$('#'+class_name).append($orig_mobile_div.html()).find('input.mobile-number').val(mobile_details[i].number);
-					$('#'+class_name).find('#mobile-network-dropdown').html(mobile_details[i].network);
-					$('#'+class_name).find('label').empty();
-					$('#'+class_name).find('#add-mobile-num-id').replaceWith(remove_btn_mob);
+			var $param = {};
+				$param.number_type = null;
+				$param.number = null;
+				$param.network = null;
+
+				// For mobile numbers
+				for (var x in mobile_details) {
+					// console.log(mobile_details[x].number);
+
+					if (x == 0) {
+
+						$orig_mobile_div.find('input.mobile-number').val(mobile_details[x].number)
+						$orig_mobile_div.find('#mobile-network-dropdown').html(mobile_details[x].network);
+
+					} else {
+
+						$param.number_type = 'mobile';
+						$param.number = mobile_details[x].number;
+						$param.network = mobile_details[x].network;
+
+						dynamic_form.add_number($param);
+					}
 				}
-
-				console.log(mobile_details[i].number);
-			}
-
-			for (var v in phone_details) {
-				
-				if (v == 0 ) {
-					$orig_phone_div.find('input.phone-number').val(phone_details[v].number);
-					$orig_phone_div.find('#phone-network-dropdown').html(phone_details[v].network);
-				} else {
-					var class_name = 'div-'+ v,
-						append_div = '<div id = "'+ class_name +'"></div>';
-
-					$phone_wrapper.append(append_div);
-					$('#'+class_name).append($orig_phone_div.html()).find('input.phone-number').val(phone_details[v].number);
-					$('#'+class_name).find('#phone-network-dropdown').html(phone_details[v].network);
-					$('#'+class_name).find('label').empty();
-					$('#'+class_name).find('#add-mobile-num-id').replaceWith(remove_btn_mob);
+				// console.log(json_data.phone_details);
+				// For phone numbers
+				for (var y in phone_details) {
+					// console.log(phone_details[y].number);
+					if (y == 0) {
+						$orig_phone_div.find('input.phone-number').val(phone_details[y].number);
+						$orig_phone_div.find('#phone-network-dropdown').html(phone_details[y].network);
+					} else {
+						// do nothing yet
+					}
 				}
+			
 
-				console.log(phone_details[v].number);
-			}
 
 			$first_name_input.val(json_data.first_name);
 			$last_name_input.val(json_data.last_name);
