@@ -198,7 +198,6 @@ class Home extends CI_Controller {
 		$mobile = $this->get_networks_dropdown_menu('mobile');
 		$telephone = $this->get_networks_dropdown_menu('telephone');
 
-		$model_data['tel_networks_dropdown'] = $telephone;
 		
 		foreach ($mobile_data as $mob_data) {
 			$mobile_obj = new stdClass();
@@ -215,8 +214,8 @@ class Home extends CI_Controller {
 		foreach ($phone_data as $tp_data) {
 			$phone_obj = new stdClass();
 
-			$phone_dropdown = $this->get_networks_dropdown_menu('mobile', $tp_data->network_id);
-			$phone_obj->number = $mob_data->contact_no;
+			$phone_dropdown = $this->get_networks_dropdown_menu('telephone', $tp_data->network_id);
+			$phone_obj->number = $tp_data->contact_no;
 			$phone_obj->network = $phone_dropdown;
 
 			//push object to the mobile array
@@ -228,11 +227,7 @@ class Home extends CI_Controller {
 		$data_array['last_name'] = $user_details->last_name;
 		$data_array['email'] = $user_details->email;
 
-		if (sizeof($telephone) == 0) {
-			$data_array['phone_details'] = $telephone;
-		} else {
-			$data_array['phone_details'] = $phone_array;
-		}
+		
 		$data_array['mobile_details'] = $mobile_array;
 		$data_array['phone_details'] = $phone_array;
 
