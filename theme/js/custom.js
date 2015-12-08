@@ -92,6 +92,7 @@ Module.Phonebook = (function() {
 			complete: function(response) {
 				modal.close_modal_trigger();
 				edit_functions.init(user_id);
+
 			}
 		});
 	}
@@ -142,14 +143,17 @@ Module.Phonebook = (function() {
 			remove_btn = '#remove-mobile-num-id';
 
 		function init() {
+
 			click(input_div_mobile, add_btn_mobile);
 			click(input_div_tel, add_btn_phone);	
 		}
 
 		function click(div_wrapper, selector) {
+
 			$(div_wrapper).on('click', selector, function() {
 				
 				var type = $(this).data('type');
+				alert(type)
 				var $obj = {};
 					$obj.number_type = type;
 					$obj.number = null;
@@ -412,6 +416,7 @@ Module.Phonebook = (function() {
 					$main_modal.html(response);
 				},
 				complete: function(response) {
+					dynamic_form.init();
 					_populate($main_modal, parsed_json);
 
 
@@ -419,7 +424,7 @@ Module.Phonebook = (function() {
 			});
 
 		}
-
+		// populates each form fields
 		function _populate($main_modal, json_data) {
 			// console.log(json_data.mobile_details );
 			
@@ -451,7 +456,6 @@ Module.Phonebook = (function() {
 
 				// For mobile numbers
 				for (var x in mobile_details) {
-					// console.log(mobile_details[x].number);
 
 					if (x == 0) {
 
@@ -489,6 +493,7 @@ Module.Phonebook = (function() {
 			$first_name_input.val(json_data.first_name);
 			$last_name_input.val(json_data.last_name);
 			$email_input.val(json_data.email);
+			
 			
 			// console.log(json_data.mobile_details[0].number);
 		}
