@@ -200,7 +200,8 @@ Module.Phonebook = (function() {
 							$(input_div_mobile).find('#add-mobile-num-id').addClass('disabled');
 						}
 					break;
-				/*case 'phone':
+
+				case 'telephone':
 						var class_name = 'div-tel-'+ size_tel;
 						var div_class = '<div class = "'+ class_name +'"></div>';
 						
@@ -211,16 +212,17 @@ Module.Phonebook = (function() {
 													.find('#add-tel-num-id')
 													.replaceWith(remove_btn_mob);
 
-							$('.' + class_name).find('input.phone-number').val(add_number.number);
-							$('.' + class_name).find('select#phone-network-dropdown').html(add_number.network);
+							$('.' + class_name).find('input.phone-number').val($obj.number);
+							$('.' + class_name).find('select#phone-network-dropdown').html($obj.network);
 
 							$('#added-phone-form-id').find('label').empty();
 
 							size_tel += 1;
+
 						} else {
 							$(input_div_tel).find('#add-tel-num-id').addClass('disabled');
 						}
-					break;*/
+					break;
 				default:
 					// do nothing
 			}
@@ -463,6 +465,7 @@ Module.Phonebook = (function() {
 						$param.network = mobile_details[x].network;
 
 						dynamic_form.add_number($param);
+
 					}
 				}
 				// console.log(json_data.phone_details);
@@ -473,7 +476,11 @@ Module.Phonebook = (function() {
 						$orig_phone_div.find('input.phone-number').val(phone_details[y].number);
 						$orig_phone_div.find('#phone-network-dropdown').html(phone_details[y].network);
 					} else {
-						// do nothing yet
+						$param.number_type = 'telephone';
+						$param.number = phone_details[y].number;
+						$param.network = phone_details[y].network;
+
+						dynamic_form.add_number($param);
 					}
 				}
 			
