@@ -9,6 +9,7 @@ class Home extends CI_Controller {
 		$this->load->model('Contacts_Model');
 		$main_model = new Contacts_Model();
 		$this->main_model = $main_model;
+		$contacts_model = $this->main_model;
 
 	}
 
@@ -224,6 +225,7 @@ class Home extends CI_Controller {
 			unset($phone_obj);
 		}
 		
+		$data_array['user_id'] = $user_id;
 		$data_array['first_name'] = $user_details->first_name;
 		$data_array['last_name'] = $user_details->last_name;
 		$data_array['email'] = $user_details->email;
@@ -242,6 +244,24 @@ class Home extends CI_Controller {
 	public function edit_modal() {
 
 		echo $this->load->view('modals/edit_user_contact_modal');
+	}
+
+	public function update_contact_details() {
+
+		$data = $this->input->post();
+		$contacts_model = $this->main_model;
+
+		if ($data) {
+			extract($data, EXTR_SKIP);
+			
+			// update user table with new first_name, last_name, and email
+
+			$update_data = $contacts_model->update_user_details($first_name, $last_name, $email, $user_id);
+
+		}
+		
+
+		var_dump($update_data);
 	}
 
 } // end of class Home

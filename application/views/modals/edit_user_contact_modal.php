@@ -6,7 +6,7 @@
       </div>
       <?php 
         $attr = array('class'=> 'form-horizontal', 'id' => 'edit-contact-form');
-        echo form_open('', $attr);
+        echo form_open('Home/update_contact_details', $attr);
       ?>
       <div class="modal-body">
         <div class="form-group">
@@ -67,6 +67,8 @@
         
         <div id = "added-phone-form-id"></div>
         
+        <!-- Hidden Values -->
+        <input type="hidden" name = "user_id" >
       </div>
       
       <div class="modal-footer">

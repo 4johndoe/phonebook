@@ -140,5 +140,19 @@
 			return 'deleted';
 		}
 
+		/* UPDATE */
+		public function update_user_details($first_name, $last_name, $email, $user_id) {
+
+			$sql = "UPDATE `user` SET `first_name` = ?, `last_name` = ?, `email` = ? WHERE `user_id` = ?";
+			$escaped_values = array($first_name, $last_name, $email, $user_id);
+
+			$query = $this->db->query($sql, $escaped_values);
+
+			return 'success';
+
+		}
+
+		
+
 	}
 ?>

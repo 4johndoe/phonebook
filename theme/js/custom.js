@@ -153,7 +153,7 @@ Module.Phonebook = (function() {
 			$(div_wrapper).on('click', selector, function() {
 				
 				var type = $(this).data('type');
-				alert(type)
+
 				var $obj = {};
 					$obj.number_type = type;
 					$obj.number = null;
@@ -184,7 +184,7 @@ Module.Phonebook = (function() {
 				case 'mobile':
 						var class_name = 'div-mobile-'+ size_mobile;
 						var div_class = '<div class = "'+ class_name +'"></div>';
-						
+						var $cloned = $(input_div_mobile).clone(true);
 
 						if (size_mobile <= 2) {
 
@@ -419,7 +419,7 @@ Module.Phonebook = (function() {
 					dynamic_form.init();
 					_populate($main_modal, parsed_json);
 
-
+					save();
 				}
 			});
 
@@ -432,7 +432,8 @@ Module.Phonebook = (function() {
 			// define the input fields
 			var $first_name_input = $main_modal.find('input[name=first_name]'),
 				$last_name_input = $main_modal.find('input[name=last_name]'),
-				$email_input = $main_modal.find('input[name=email]');
+				$email_input = $main_modal.find('input[name=email]'),
+				$user_id_hidden = $main_modal.find('input[name=user_id]');
 
 			//contact details div groups and wrappers
 			var $orig_mobile_div = $main_modal.find('div#mobile-numbers-row-id'),
@@ -493,11 +494,43 @@ Module.Phonebook = (function() {
 			$first_name_input.val(json_data.first_name);
 			$last_name_input.val(json_data.last_name);
 			$email_input.val(json_data.email);
-			
+			$user_id_hidden.val(json_data.user_id);
 			
 			// console.log(json_data.mobile_details[0].number);
 		}
 		
+		function save () {
+
+			$('button#btn-save-data-id').on('click', function(e) {
+				e.preventDefault();
+
+				submit();
+
+			});
+		}
+
+		function submit() {
+
+			var ajax_url = controller + '/update_contact_details';
+			var form_id = '#edit-contact-form';
+
+			var form_data = $(form_id).serialize();
+
+			$.ajax({
+				url: ajax_url,
+				method: 'POST',
+				data: form_data,
+				beforeSend: function() {
+
+				},
+				success: function(response) {
+					console.log(response);
+				},
+				complete: function(response){
+
+				}
+			});
+		}
 
 		return {
 			init: init
