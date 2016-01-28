@@ -207,7 +207,8 @@ class Home extends CI_Controller {
 			$mobile_dropdown = $this->get_networks_dropdown_menu('mobile', $mob_data->network_id);
 			$mobile_obj->number = $mob_data->contact_no;
 			$mobile_obj->network = $mobile_dropdown;
-
+			$mobile_obj->contact_id = $mob_data->contact_id;
+			
 			//push object to the mobile array
 			array_push($mobile_array, $mobile_obj);
 			unset($mobile_obj);
@@ -219,6 +220,7 @@ class Home extends CI_Controller {
 			$phone_dropdown = $this->get_networks_dropdown_menu('telephone', $tp_data->network_id);
 			$phone_obj->number = $tp_data->contact_no;
 			$phone_obj->network = $phone_dropdown;
+			$phone_obj->contact_id = $tp_data->contact_id;
 
 			//push object to the mobile array
 			array_push($phone_array, $phone_obj);
@@ -250,19 +252,49 @@ class Home extends CI_Controller {
 
 		$data = $this->input->post();
 		$contacts_model = $this->main_model;
-
-		if ($data) {
+		
+		if ($data) { // array data: $mobile_number, $mobile_network, $phone_number, $phone_network
 			extract($data, EXTR_SKIP);
 			
 			// update user table with new first_name, last_name, and email
+			// $update_data = $contacts_model->update_user_details($first_name, $last_name, $email, $user_id);
 
-			$update_data = $contacts_model->update_user_details($first_name, $last_name, $email, $user_id);
-
+			$mobile_obj = $this->_array_object_parser($mobile_number, $mobile_network);
+			
+			/**/
+			var_dump($mobile_obj);
 		}
 		
 
-		var_dump($update_data);
+		// var_dump($data['mobile_network']);
 	}
+
+	/**
+	 * Draft: dynamic function that parses array of arrays of number and networks into valued pairs (object)
+	 *	@param Array[number] array[network]
+	 *	@return Array of objects [{number: 'value', network: 'value'}, {},... ]
+	*/
+
+	public function _array_object_parser($array_number, $array_network) {
+
+		$obj = new stdClass();
+		$obj_array = array(); // the array that puts the objects together
+
+		// for loop through numbers and put them to the object
+		$counter = 0;
+		foreach ($array_number as $number) {
+
+			$obj->number = $number;
+			$obj->network = $array_network[$counter];
+
+			array_push($obj_array, $obj);
+			// unset($obj);
+			$counter++;
+		}
+		return $obj_array;	
+	}
+
+
 
 } // end of class Home
 

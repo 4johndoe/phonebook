@@ -88,7 +88,8 @@
 				$where_concat .= " AND c.`network_id` = {$network_id}";
 			}
 
-			$sql = "SELECT u.`user_id`, u.`first_name`, u.`last_name`, u.`email`, c.`contact_no`,n.`network_id`, n.`network_name`, n.`network_code`, n.`type` 
+			$sql = "SELECT u.`user_id`, u.`first_name`, u.`last_name`, u.`email`, c.`contact_no`,n.`network_id`, n.`network_name`, n.`network_code`, n.`type`,
+						c.`contact_id`
 						FROM `user` u
 						LEFT JOIN contact c ON u.`user_id` = c.`user_id`
 						LEFT JOIN network n ON c.`network_id` = n.`network_id` 
@@ -149,6 +150,10 @@
 			$query = $this->db->query($sql, $escaped_values);
 
 			return 'success';
+
+		}
+
+		public function update_number() {
 
 		}
 

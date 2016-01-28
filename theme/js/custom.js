@@ -157,7 +157,8 @@ Module.Phonebook = (function() {
 				var $obj = {};
 					$obj.number_type = type;
 					$obj.number = null;
-					$obj.networl = null;
+					$obj.network = null;
+					$.obj.network_id = null;
 					
 				add_number($obj);
 				
@@ -178,6 +179,7 @@ Module.Phonebook = (function() {
 				$obj.number = null;
 				$obj.number_type = null;
 				$obj.network = null;
+				$obj.contact_id = null;
 			}
 			// console.log($obj);
 			switch ($obj.number_type) {
@@ -186,13 +188,14 @@ Module.Phonebook = (function() {
 						var div_class = '<div class = "'+ class_name +'"></div>';
 						var $cloned = $(input_div_mobile).clone(true);
 
+						$(input_div_mobile).attr('contact-id', $obj.contact_id);
 						if (size_mobile <= 2) {
 
 							$('#added-mobile-form-id').append(div_class);
 							$('.' + class_name).append($(input_div_mobile).html())
 													.find('#add-mobile-num-id')
 													.replaceWith(remove_btn_mob);
-
+							$('.' + class_name).find('input.mobile-number').attr('contact-id', $obj.contact_id);
 							$('.' + class_name).find('input.mobile-number').val($obj.number);
 							$('.' + class_name).find('select#mobile-network-dropdown').html($obj.network);
 
@@ -216,6 +219,7 @@ Module.Phonebook = (function() {
 													.find('#add-tel-num-id')
 													.replaceWith(remove_btn_mob);
 
+							$('.' + class_name).find('input.phone-number').attr('contact-id', $obj.contact_id);
 							$('.' + class_name).find('input.phone-number').val($obj.number);
 							$('.' + class_name).find('select#phone-network-dropdown').html($obj.network);
 
@@ -461,6 +465,7 @@ Module.Phonebook = (function() {
 					if (x == 0) {
 
 						$orig_mobile_div.find('input.mobile-number').val(mobile_details[x].number)
+						$orig_mobile_div.find('input.mobile-number').attr('contact-id', mobile_details[x].contact_id);
 						$orig_mobile_div.find('#mobile-network-dropdown').html(mobile_details[x].network);
 
 					} else {
@@ -468,8 +473,10 @@ Module.Phonebook = (function() {
 						$param.number_type = 'mobile';
 						$param.number = mobile_details[x].number;
 						$param.network = mobile_details[x].network;
+						$param.contact_id = mobile_details[x].contact_id;
 
 						dynamic_form.add_number($param);
+						$param ={}; //unset set object values
 
 					}
 				}
@@ -479,13 +486,17 @@ Module.Phonebook = (function() {
 					// console.log(phone_details[y].number);
 					if (y == 0) {
 						$orig_phone_div.find('input.phone-number').val(phone_details[y].number);
+						$orig_phone_div.find('input.phone-number').attr('contact-id', phone_details[y].contact_id);
 						$orig_phone_div.find('#phone-network-dropdown').html(phone_details[y].network);
 					} else {
+
 						$param.number_type = 'telephone';
 						$param.number = phone_details[y].number;
 						$param.network = phone_details[y].network;
+						$param.contact_id = phone_details[y].contact_id;
 
 						dynamic_form.add_number($param);
+						$param ={}; //unset set object values
 					}
 				}
 			
